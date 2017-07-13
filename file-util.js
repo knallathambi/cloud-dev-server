@@ -1,4 +1,5 @@
-var fs = require('fs');
+const fs = require('fs');
+const crypto = require('crypto');
 
 var FileUtils = function(){}
 
@@ -7,7 +8,6 @@ FileUtils.getWorkspace = function(workspaceName){
 	var dirTree = [];
 
 	var buildFileTree = function (dirName, dirTree, callback) {
-		//console.log('Read dir - '+dirName);
 		fs.readdir(dirName, function(err, files){
 			if (err){
 				console.error(err);
@@ -21,7 +21,6 @@ FileUtils.getWorkspace = function(workspaceName){
 			}
 			files.forEach( function(file){
 				filePath = dirPath + '\\' + file;
-				//console.log('Stat - '+filePath);
 				var stat = fs.statSync(filePath);
 				var fileObj = {
 					name: file,
@@ -31,32 +30,28 @@ FileUtils.getWorkspace = function(workspaceName){
 				};
 				dirTree.push(fileObj);
 				if ( stat.isDirectory() ){
-					//console.log('Process dir - '+filePath);
 					buildFileTree(filePath, fileObj.children, function(err){
 						if (err){
 							return callback(err);
 						} 
 						processCount++;					
-						//console.log(listLength+", "+processCount);
-						//callback(null);
 						if (processCount == listLength){
-							//console.log('dir callback');
 							callback(null);
 						}
 
 					});
 				} else {
-					//console.log('Process file - '+filePath);
-					processCount++;
-					//console.log(listLength+", "+processCount);
-					if (processCount == listLength){
-						//console.log('file callback');
-						callback(null);
-					}
+
+					FileUtils.generateHash(fileObj)
+						.then(function(result){
+							processCount++;
+							if (processCount == listLength){
+								callback(null);
+							}
+						});
 				}
 
 			});
-			//callback(null);
 		});
 	}
 
@@ -73,6 +68,26 @@ FileUtils.getWorkspace = function(workspaceName){
 	});
 
 }
+
+FileUtils.generateHash = function(fileObj){
+	const hash = crypto.createHash('sha256');
+	const input = fs.createReadStream(fileObj.path);
+
+	return new Promise(function(resolve, reject){
+		input.on('readable', () => {
+		  const data = input.read();
+		  if (data)
+		    hash.update(data);
+		  else {
+		  	const hashString = hash.digest('hex');
+		    console.log(`${hashString} ${fileObj.name}`);
+		    fileObj.hash = hashString;
+		    resolve(hashString);
+		  }
+		});	
+	});
+}
+
 
 module.exports = FileUtils;
 

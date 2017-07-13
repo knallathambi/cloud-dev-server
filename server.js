@@ -42,4 +42,4 @@ router.post('/post', function(req, res){
 app.use('/api', router);
 
 app.listen(port);
-console.log('Server started listening to port ' + port);
+console.log(`Server started listening to port ${port}`);
