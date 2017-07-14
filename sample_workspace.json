@@ -1,0 +1,43 @@
+[
+  {
+    "name": "project1",
+    "path": "C:\\NK\\WebApps\\cloud-dev-server\\user_workspace\\workspace\\project1",
+    "type": "dir",
+    "children": [
+      {
+        "name": "test.json",
+        "path": "C:\\NK\\WebApps\\cloud-dev-server\\user_workspace\\workspace\\project1\\test.json",
+        "type": "file",
+        "children": [],
+        "hash": "1ee3aea5ed25cf2de5c983ccc3474e0b7e68813d84c731a7bbe74902f99645b2",
+        "content": {
+          "key": "test"
+        }
+      }
+    ]
+  },
+  {
+    "name": "project2",
+    "path": "C:\\NK\\WebApps\\cloud-dev-server\\user_workspace\\workspace\\project2",
+    "type": "dir",
+    "children": [
+      {
+        "name": "src",
+        "path": "C:\\NK\\WebApps\\cloud-dev-server\\user_workspace\\workspace\\project2\\src",
+        "type": "dir",
+        "children": [
+          {
+            "name": "config.json",
+            "path": "C:\\NK\\WebApps\\cloud-dev-server\\user_workspace\\workspace\\project2\\src\\config.json",
+            "type": "file",
+            "children": [],
+            "hash": "2ed5e46fcd21830acea31d08f938e21e8f36b68251aa2565286aae08c37eb76d",
+            "content": {
+              "config": ""
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
